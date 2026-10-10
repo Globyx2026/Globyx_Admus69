@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { getProfile, type Profile } from '@/services/account';
+import { checkIsAdmin } from '@/services/admin';
 import { useCurrency } from './CurrencyContext';
 
 interface AuthValue {
@@ -12,6 +13,8 @@ interface AuthValue {
   profile: Profile | null;
   /** A demo account: signed in without an email address. */
   isDemo: boolean;
+  /** May use the admin dashboard at /admin. Null while it is being checked. */
+  isAdmin: boolean | null;
   /** Set after someone opens a password reset link. */
   recovering: boolean;
   /** Name to greet the customer with. */
@@ -26,6 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [recovering, setRecovering] = useState(false);
   const currencyAppliedFor = useRef<string | null>(null);
 
@@ -56,8 +60,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshProfile = useCallback(async () => {
     if (!userId) {
       setProfile(null);
+      setIsAdmin(null);
       return;
     }
+    // The database decides who is an admin; this flag only chooses what to show.
+    checkIsAdmin().then(setIsAdmin, () => setIsAdmin(false));
     try {
       const loaded = await getProfile(userId);
       setProfile(loaded);
@@ -73,6 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!userId) currencyAppliedFor.current = null;
+    setIsAdmin(null);
     void refreshProfile();
   }, [userId, refreshProfile]);
 
@@ -81,8 +89,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const isDemo = Boolean(user?.is_anonymous);
     const fromEmail = user?.email ? user.email.split('@')[0] : '';
     const displayName = profile?.fullName || (isDemo ? 'Demo user' : fromEmail) || 'there';
-    return { loading, session, user, profile, isDemo, recovering, displayName, refreshProfile };
-  }, [loading, session, profile, recovering, refreshProfile]);
+    return { loading, session, user, profile, isDemo, isAdmin, recovering, displayName, refreshProfile };
+  }, [loading, session, profile, isAdmin, recovering, refreshProfile]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

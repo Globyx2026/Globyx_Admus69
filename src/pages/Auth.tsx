@@ -38,9 +38,9 @@ const COPY: Record<Mode, { title: string; intro: string; submit: string; busy: s
   },
 };
 
-/** Only follow "next" links that stay inside the dashboard. */
+/** Only follow "next" links that stay inside the dashboards. */
 function safeNext(value: string | null): string {
-  return value && value.startsWith('/app') ? value : '/app';
+  return value && /^\/(app|admin)(\/|\?|$)/.test(value) ? value : '/app';
 }
 
 export default function Auth({ mode }: { mode: Mode }) {

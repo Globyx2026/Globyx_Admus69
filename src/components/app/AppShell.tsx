@@ -12,6 +12,7 @@ import {
   Phone,
   Plus,
   Settings,
+  ShieldCheck,
   Wallet,
   X,
   type LucideIcon,
@@ -52,9 +53,12 @@ const NAV: Array<{ to: string; label: string; icon: LucideIcon; end?: boolean }>
 ];
 
 function NavItems({ onNavigate }: { onNavigate?: () => void }) {
+  const { isAdmin } = useAuth();
+  // Admins get a way across to the admin dashboard; customers never see the link.
+  const items = isAdmin ? [...NAV, { to: '/admin', label: 'Admin', icon: ShieldCheck, end: false }] : NAV;
   return (
     <ul className="space-y-1">
-      {NAV.map(({ to, label, icon: Icon, end }) => (
+      {items.map(({ to, label, icon: Icon, end }) => (
         <li key={to}>
           <NavLink
             to={to}
@@ -102,7 +106,7 @@ function BalanceCard({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-function UserBlock() {
+export function UserBlock() {
   const { displayName, user, isDemo } = useAuth();
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);

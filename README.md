@@ -2,7 +2,7 @@
 
 **Connect beyond borders.** The website and customer dashboard for Globyx: virtual phone numbers and proxies for teams that work across countries.
 
-Stages 1 and 2 of 3 are built: the public site, and the customer dashboard with real accounts and data in Supabase. Stage 3 is the final polish pass.
+Stages 1 and 2 of 3 are built: the public site, the customer dashboard with real accounts and data in Supabase, and an admin dashboard for the business owner. Stage 3 is the final polish pass.
 
 > **Test mode.** Accounts, wallets and purchases are real rows in the database, but no payment is taken and the numbers and proxies are simulated. See [What is simulated](#what-is-simulated).
 
@@ -37,9 +37,15 @@ Built with React, TypeScript, Vite, Tailwind CSS v4, Radix UI primitives, Framer
 | `/app/wallet` | Balance, add funds, transaction history |
 | `/app/api-keys` | Create and revoke API keys (the key is shown once) |
 | `/app/settings` | Name, company, currency, password, log out |
+| `/admin` | Admin overview: money in and out, customers, numbers, proxy plans, a 14-day chart |
+| `/admin/transactions` | Every top-up and purchase across all customers, with search, filters and CSV download |
+| `/admin/numbers` | Every rented number, who holds it and when it is due |
+| `/admin/proxies` | Every proxy plan with what was bought, used and left |
+| `/admin/customers` | Every account with its wallet balance, top-ups and spend |
+| `/admin/messages` | Contact form messages and newsletter sign-ups |
 | anything else | 404, "Lost in transit" |
 
-Everything under `/app` needs a signed-in customer; visitors are sent to `/login` and brought back afterwards.
+Everything under `/app` needs a signed-in customer; visitors are sent to `/login` and brought back afterwards. Everything under `/admin` needs an admin account (see [Admin accounts](#admin-accounts)).
 
 ## Where things live
 
@@ -57,8 +63,10 @@ src/
   components/home/     The home page sections
   components/pricing/  Bandwidth calculator and number price picker
   components/app/      Dashboard frame (sidebar, wallet) and shared pieces
+  components/admin/    Admin frame, the searchable table and the money chart
   pages/               One file per public route
   pages/app/           One file per dashboard page
+  pages/admin/         One file per admin page
 supabase/
   migrations/          The database: tables, security rules, functions, sample stock
 ```
@@ -84,12 +92,31 @@ The site is connected to the Supabase project in `src/lib/supabase.ts`. The key 
 | `proxy_rates` | The proxy price list | Everyone |
 | `proxy_plans` | Proxy plans bought, with connection details | The customer |
 | `api_keys` | Key name and first characters; only a hash of the key is stored | The customer (never the hash) |
-| `contact_messages` | Contact form | Nobody from the website: read it in the Supabase table editor |
-| `newsletter_subscribers` | Newsletter sign-ups | Nobody from the website: read it in the table editor |
+| `contact_messages` | Contact form | Admins, on the Messages page |
+| `newsletter_subscribers` | Newsletter sign-ups | Admins, on the Messages page |
+| `admins` | Which accounts may use `/admin` | Nobody from the website |
 
 Customers cannot write to their wallet, transactions, numbers, plans or keys directly. Money only moves inside database functions (`rent_number`, `renew_number`, `buy_proxy_plan`, `top_up_wallet_test`), which check who is signed in, look the price up on the server and refuse if the balance is too low. Limits: 10 numbers, 20 active proxy plans and 10 API keys per account.
 
 To rebuild the database on a new Supabase project, run the files in `supabase/migrations` in order in the SQL editor, then set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` (see `.env.example`).
+
+### Admin accounts
+
+The admin dashboard at `/admin` shows every customer's activity, so it is locked twice: the page only opens for admin accounts, and the database refuses the reporting functions to anyone who is not in the `admins` table. Nobody can add themselves from the website. Admins are added by hand in the Supabase SQL editor, after the person has signed up on the site:
+
+```sql
+insert into public.admins (user_id)
+select id from auth.users where lower(email) = lower('you@example.com');
+```
+
+To remove one:
+
+```sql
+delete from public.admins
+where user_id = (select id from auth.users where lower(email) = lower('you@example.com'));
+```
+
+The admin pages are read-only. They never show passwords, proxy passwords, API keys or the text of customers' messages. Money is always shown in US dollars, the currency wallets are held in.
 
 ### Supabase settings to check
 

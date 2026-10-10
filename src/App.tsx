@@ -24,6 +24,13 @@ const MyProxies = lazy(() => import('@/pages/app/MyProxies'));
 const WalletPage = lazy(() => import('@/pages/app/WalletPage'));
 const ApiKeys = lazy(() => import('@/pages/app/ApiKeys'));
 const SettingsPage = lazy(() => import('@/pages/app/SettingsPage'));
+const AdminShell = lazy(() => import('@/components/admin/AdminShell'));
+const AdminOverview = lazy(() => import('@/pages/admin/AdminOverview'));
+const AdminTransactions = lazy(() => import('@/pages/admin/AdminTransactions'));
+const AdminNumbers = lazy(() => import('@/pages/admin/AdminNumbers'));
+const AdminProxies = lazy(() => import('@/pages/admin/AdminProxies'));
+const AdminCustomers = lazy(() => import('@/pages/admin/AdminCustomers'));
+const AdminMessages = lazy(() => import('@/pages/admin/AdminMessages'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
 function PageFallback() {
@@ -61,6 +68,16 @@ export default function App() {
                 <Route path="api-keys" element={<ApiKeys />} />
                 <Route path="settings" element={<SettingsPage />} />
                 <Route path="*" element={<Navigate to="/app" replace />} />
+              </Route>
+              {/* Admin dashboard. AdminShell lets in only accounts the database lists as admins. */}
+              <Route path="admin" element={<AdminShell />}>
+                <Route index element={<AdminOverview />} />
+                <Route path="transactions" element={<AdminTransactions />} />
+                <Route path="numbers" element={<AdminNumbers />} />
+                <Route path="proxies" element={<AdminProxies />} />
+                <Route path="customers" element={<AdminCustomers />} />
+                <Route path="messages" element={<AdminMessages />} />
+                <Route path="*" element={<Navigate to="/admin" replace />} />
               </Route>
             </Routes>
           </Suspense>

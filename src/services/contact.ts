@@ -1,8 +1,8 @@
 /**
  * Contact form and newsletter, stored in Supabase.
  * Messages land in the `contact_messages` table and subscribers in
- * `newsletter_subscribers`. Read both in the Supabase table editor: the
- * website itself can write to them but never read them back.
+ * `newsletter_subscribers`. Visitors can write to them but never read them
+ * back; admins read both on the Messages page of the admin dashboard.
  * BACKEND: add a notification email (a Supabase database webhook or edge
  * function) so new messages reach your inbox.
  */

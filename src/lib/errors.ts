@@ -23,6 +23,7 @@ const MESSAGES: Record<string, string> = {
   key_limit: 'You can have up to 10 active API keys. Revoke one first.',
   key_not_found: 'That key has already been revoked.',
   invalid_email: 'That email address does not look right.',
+  not_admin: 'This account is not an admin.',
 
   // Sign-in
   invalid_credentials: 'That email and password do not match. Check them and try again.',
