@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Image as ImageIcon, MessageSquare, Phone, Search, SearchX, X } from 'lucide-react';
+import { Image as ImageIcon, MessageSquare, Phone, Search, SearchX, TriangleAlert, X } from 'lucide-react';
 import { countryByCode, NUMBER_TYPE_LABEL, type CountryCode, type NumberType } from '@/data/countries';
-import type { CatalogueNumber } from '@/data/numbers';
 import { images } from '@/lib/images';
+import { useAuth } from '@/context/AuthContext';
 import { useCurrency } from '@/context/CurrencyContext';
-import { defaultNumberFilters, listNumbers, type NumberFilters, type NumberSort } from '@/services/catalog';
+import { friendlyError } from '@/lib/errors';
+import {
+  defaultNumberFilters,
+  listNumbers,
+  type CatalogueNumber,
+  type NumberFilters,
+  type NumberSort,
+} from '@/services/catalog';
 import { cn } from '@/lib/utils';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Button, ButtonLink } from '@/components/ui/Button';
@@ -147,8 +154,8 @@ function SignInDialog({ item, onClose }: { item: CatalogueNumber | null; onClose
           )}
 
           <div className="mt-6 grid gap-2.5 sm:grid-cols-2">
-            <ButtonLink to="/signup">Create account</ButtonLink>
-            <ButtonLink to="/login" variant="outline">
+            <ButtonLink to={`/signup${item ? `?rent=${item.id}` : ''}`}>Create account</ButtonLink>
+            <ButtonLink to={`/login${item ? `?rent=${item.id}` : ''}`} variant="outline">
               Log in
             </ButtonLink>
           </div>
@@ -163,6 +170,8 @@ function isCountryCode(value: string | null): value is CountryCode {
 }
 
 export default function Numbers() {
+  const navigate = useNavigate();
+  const { session } = useAuth();
   const [params, setParams] = useSearchParams();
   const initialCountry = params.get('country');
 
@@ -171,23 +180,39 @@ export default function Numbers() {
     country: isCountryCode(initialCountry) ? initialCountry : 'all',
   });
   const [results, setResults] = useState<CatalogueNumber[] | null>(null);
+  const [loadError, setLoadError] = useState('');
+  const [attempt, setAttempt] = useState(0);
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [buying, setBuying] = useState<CatalogueNumber | null>(null);
+
+  // Signed-in customers go straight to the dashboard to rent; everyone else is asked to sign in.
+  function onBuy(item: CatalogueNumber) {
+    if (session) navigate(`/app/numbers?rent=${encodeURIComponent(item.id)}`);
+    else setBuying(item);
+  }
 
   // Reload whenever a filter changes. The flag stops a slow, older request
   // from overwriting a newer one.
   useEffect(() => {
     let current = true;
     setResults(null);
-    listNumbers(filters).then((list) => {
-      if (!current) return;
-      setResults(list);
-      setVisible(PAGE_SIZE);
-    });
+    setLoadError('');
+    listNumbers(filters).then(
+      (list) => {
+        if (!current) return;
+        setResults(list);
+        setVisible(PAGE_SIZE);
+      },
+      (error) => {
+        if (!current) return;
+        setResults([]);
+        setLoadError(friendlyError(error, 'We could not load the numbers. Check your connection and try again.'));
+      },
+    );
     return () => {
       current = false;
     };
-  }, [filters]);
+  }, [filters, attempt]);
 
   function update<K extends keyof NumberFilters>(key: K, value: NumberFilters[K]) {
     setFilters((previous) => ({ ...previous, [key]: value }));
@@ -322,7 +347,9 @@ export default function Numbers() {
           <p className="mt-8 text-sm text-muted" aria-live="polite">
             {results === null
               ? 'Loading numbers…'
-              : `${results.length} ${results.length === 1 ? 'number' : 'numbers'} available`}
+              : loadError
+                ? ''
+                : `${results.length} ${results.length === 1 ? 'number' : 'numbers'} available`}
           </p>
 
           <div className="mt-4">
@@ -332,6 +359,20 @@ export default function Numbers() {
                   <SkeletonCard key={index} />
                 ))}
               </div>
+            ) : loadError ? (
+              <div
+                role="alert"
+                className="flex flex-col items-center rounded-3xl border border-dashed border-line bg-white px-6 py-16 text-center"
+              >
+                <span className="grid h-14 w-14 place-items-center rounded-full bg-[#fde4e1] text-[#8f2a22]">
+                  <TriangleAlert className="h-6 w-6" />
+                </span>
+                <h2 className="type-h3 mt-5 text-char">The catalogue did not load</h2>
+                <p className="mt-2 max-w-sm text-[15px] text-muted">{loadError}</p>
+                <Button variant="outline" className="mt-6" onClick={() => setAttempt((count) => count + 1)}>
+                  Try again
+                </Button>
+              </div>
             ) : results.length === 0 ? (
               <EmptyState onClear={clearFilters} />
             ) : (
@@ -339,7 +380,7 @@ export default function Numbers() {
                 <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {shown.map((item) => (
                     <li key={item.id}>
-                      <NumberCard item={item} onBuy={setBuying} />
+                      <NumberCard item={item} onBuy={onBuy} />
                     </li>
                   ))}
                 </ul>

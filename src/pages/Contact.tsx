@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { CircleCheck, LifeBuoy, Mail, ShieldAlert } from 'lucide-react';
 import { site } from '@/data/site';
 import { images } from '@/lib/images';
+import { friendlyError } from '@/lib/errors';
 import { sendContactMessage } from '@/services/contact';
 import { cn, isValidEmail } from '@/lib/utils';
 import { PageHeader } from '@/components/layout/PageHeader';
@@ -76,11 +77,18 @@ export default function Contact() {
       return;
     }
     setBusy(true);
-    await sendContactMessage(form);
-    setBusy(false);
-    setSent(true);
-    setForm(EMPTY);
-    toast.success('Message sent', { description: 'We reply within one working day.' });
+    try {
+      await sendContactMessage(form);
+      setSent(true);
+      setForm(EMPTY);
+      toast.success('Message sent', { description: 'We reply within one working day.' });
+    } catch (error) {
+      toast.error('Your message was not sent', {
+        description: friendlyError(error, `Please try again, or write to ${site.supportEmail}.`),
+      });
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (

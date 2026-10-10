@@ -17,6 +17,7 @@ export default defineConfig({
           if (!id.includes('node_modules')) return undefined;
           if (/node_modules\/(react|react-dom|react-router|react-router-dom|scheduler|@remix-run)\//.test(id)) return 'react';
           if (/node_modules\/(framer-motion|motion-dom|motion-utils)\//.test(id)) return 'motion';
+          if (/node_modules\/(@supabase|tslib|iceberg-js)\//.test(id)) return 'supabase';
           if (/node_modules\/(@radix-ui|@floating-ui|sonner|aria-hidden|react-remove-scroll|react-remove-scroll-bar|react-style-singleton|use-callback-ref|use-sidecar)\//.test(id)) return 'ui';
           return undefined;
         },

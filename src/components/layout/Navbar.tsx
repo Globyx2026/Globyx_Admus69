@@ -5,6 +5,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { motion } from 'framer-motion';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import { companyNav, primaryNav } from '@/data/site';
+import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 import { ButtonLink } from '@/components/ui/Button';
 import { Logo } from './Logo';
@@ -53,6 +54,7 @@ function CompanyMenu() {
 }
 
 function MobileMenu() {
+  const { session } = useAuth();
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
 
@@ -108,12 +110,20 @@ function MobileMenu() {
             ))}
           </nav>
 
-          <div className="shell grid shrink-0 grid-cols-2 gap-3 pb-8">
-            <ButtonLink to="/login" variant="ghost">
-              Login
-            </ButtonLink>
-            <ButtonLink to="/signup">Get started</ButtonLink>
-          </div>
+          {session ? (
+            <div className="shell shrink-0 pb-8">
+              <ButtonLink to="/app" className="w-full">
+                Open dashboard
+              </ButtonLink>
+            </div>
+          ) : (
+            <div className="shell grid shrink-0 grid-cols-2 gap-3 pb-8">
+              <ButtonLink to="/login" variant="ghost">
+                Login
+              </ButtonLink>
+              <ButtonLink to="/signup">Get started</ButtonLink>
+            </div>
+          )}
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
@@ -121,6 +131,7 @@ function MobileMenu() {
 }
 
 export function Navbar() {
+  const { session } = useAuth();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -150,15 +161,23 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-1 sm:gap-3">
-          <Link
-            to="/login"
-            className="rounded-md px-3 py-2 text-[13px] text-cream/75 transition-colors duration-200 hover:text-cream"
-          >
-            Login
-          </Link>
-          <ButtonLink to="/signup" variant="secondary" size="sm" className="hidden lg:inline-flex">
-            Get started
-          </ButtonLink>
+          {session ? (
+            <ButtonLink to="/app" variant="secondary" size="sm">
+              Dashboard
+            </ButtonLink>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="rounded-md px-3 py-2 text-[13px] text-cream/75 transition-colors duration-200 hover:text-cream"
+              >
+                Login
+              </Link>
+              <ButtonLink to="/signup" variant="secondary" size="sm" className="hidden lg:inline-flex">
+                Get started
+              </ButtonLink>
+            </>
+          )}
           <MobileMenu />
         </div>
       </div>

@@ -1,10 +1,12 @@
 /**
- * Contact form and newsletter.
- * BACKEND: insert into Supabase tables (`contact_messages`,
- * `newsletter_subscribers`) and send a notification email. For now entries
- * are kept in this browser's localStorage so the forms behave realistically.
+ * Contact form and newsletter, stored in Supabase.
+ * Messages land in the `contact_messages` table and subscribers in
+ * `newsletter_subscribers`. Read both in the Supabase table editor: the
+ * website itself can write to them but never read them back.
+ * BACKEND: add a notification email (a Supabase database webhook or edge
+ * function) so new messages reach your inbox.
  */
-import { fakeLatency, readStore, writeStore } from '@/lib/utils';
+import { supabase } from '@/lib/supabase';
 
 export interface ContactMessage {
   name: string;
@@ -13,21 +15,18 @@ export interface ContactMessage {
   message: string;
 }
 
-const MESSAGES_KEY = 'globyx.contactMessages';
-const NEWSLETTER_KEY = 'globyx.newsletter';
-
 export async function sendContactMessage(message: ContactMessage): Promise<void> {
-  await fakeLatency();
-  const saved = readStore<Array<ContactMessage & { sentAt: string }>>(MESSAGES_KEY, []);
-  writeStore(MESSAGES_KEY, [...saved, { ...message, sentAt: new Date().toISOString() }]);
+  const { error } = await supabase.from('contact_messages').insert({
+    name: message.name.trim(),
+    email: message.email.trim(),
+    topic: message.topic,
+    message: message.message.trim(),
+  });
+  if (error) throw error;
 }
 
-/** Returns false when the address was already subscribed. */
-export async function subscribeToNewsletter(email: string): Promise<boolean> {
-  await fakeLatency();
-  const saved = readStore<string[]>(NEWSLETTER_KEY, []);
-  const address = email.trim().toLowerCase();
-  if (saved.includes(address)) return false;
-  writeStore(NEWSLETTER_KEY, [...saved, address]);
-  return true;
+/** Subscribing an address that is already on the list is harmless. */
+export async function subscribeToNewsletter(email: string): Promise<void> {
+  const { error } = await supabase.rpc('subscribe_newsletter', { p_email: email });
+  if (error) throw error;
 }

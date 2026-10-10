@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Globe, Mail } from 'lucide-react';
 import { site } from '@/data/site';
 import { useCurrency, type Currency } from '@/context/CurrencyContext';
+import { friendlyError } from '@/lib/errors';
 import { subscribeToNewsletter } from '@/services/contact';
 import { isValidEmail } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
@@ -73,13 +74,14 @@ function Newsletter() {
     }
     setError('');
     setBusy(true);
-    const added = await subscribeToNewsletter(email);
-    setBusy(false);
-    if (added) {
+    try {
+      await subscribeToNewsletter(email);
       toast.success('Subscribed', { description: 'Product news will arrive about once a month.' });
       setEmail('');
-    } else {
-      toast.info('You are already subscribed', { description: 'Nothing more to do.' });
+    } catch (caught) {
+      setError(friendlyError(caught, 'We could not subscribe you just now. Please try again.'));
+    } finally {
+      setBusy(false);
     }
   }
 

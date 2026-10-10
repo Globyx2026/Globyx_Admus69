@@ -1,7 +1,7 @@
 /**
- * MOCK DATA: countries where numbers are sold, with monthly prices in USD.
- * BACKEND: replace with a `countries` table in Supabase, kept in sync with the
- * number provider's rate card.
+ * Countries where numbers are sold, with the "from" prices in USD shown on
+ * the public pages. The price a customer pays for a particular number comes
+ * from the Supabase table `number_catalog`. Keep the two in step.
  */
 
 export type CountryCode =

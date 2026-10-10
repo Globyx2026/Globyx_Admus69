@@ -1,6 +1,7 @@
 /**
- * MOCK DATA: proxy rates and subscription plans, in USD.
- * BACKEND: move to Supabase tables so prices can change without a deploy.
+ * Proxy rates and subscription plans shown on the public pages, in USD.
+ * The rates customers are actually charged live in the Supabase table
+ * `proxy_rates` (see supabase/migrations). Keep the two in step.
  */
 
 export type ProxyKind = 'residential' | 'mobile' | 'isp' | 'datacenter';
