@@ -1,0 +1,292 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Design tokens. Change a value here and it updates across the site.
+   ------------------------------------------------------------------ */
+@theme {
+  /* Typography. To set the whole site in Playfair Display, point
+     --font-sans at the same stack as --font-serif. */
+  --font-serif: 'Playfair Display Variable', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Surfaces */
+  --color-ink: #12100e;
+  --color-ink-2: #1b1815;
+  --color-ink-3: #26221e;
+  --color-paper: #f6f4f0;
+
+  /* Text */
+  --color-char: #1a1714;
+  --color-muted: #6e6761;
+  --color-cream: #f4efe8;
+
+  /* Lines */
+  --color-line: #e6e1d9;
+
+  /* Brand */
+  --color-accent: #ff5a1f;
+  --color-accent-hover: #ff7440;
+  --color-accent-deep: #e8480f;
+  /* Orange dark enough for small text on light backgrounds (4.5:1). */
+  --color-accent-ink: #b23a0c;
+  --color-glow: #ffb067;
+  --color-dusk: #8c93b8;
+  --color-dusk-deep: #5b5f8a;
+  --color-navy: #0e1330;
+  --color-navy-deep: #1b1245;
+
+  /* Status */
+  --color-success: #3ddc97;
+  --color-warning: #ffc857;
+  --color-danger: #ff5c5c;
+
+  --shadow-glow: 0 8px 30px rgba(255, 90, 31, 0.35);
+  --shadow-float: 0 30px 60px -30px rgba(18, 16, 14, 0.55);
+
+  --animate-slow-zoom: slow-zoom 20s ease-in-out infinite alternate;
+  --animate-drift: drift 7s ease-in-out infinite;
+  --animate-ping-soft: ping-soft 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-accordion-down: accordion-down 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-accordion-up: accordion-up 0.22s ease-in;
+  --animate-pop-in: pop-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @keyframes slow-zoom {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.09);
+    }
+  }
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translateY(-6px);
+    }
+    50% {
+      transform: translateY(6px);
+    }
+  }
+  @keyframes accordion-down {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+    to {
+      height: 0;
+      opacity: 0;
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes ping-soft {
+    0% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    80%,
+    100% {
+      transform: scale(3.4);
+      opacity: 0;
+    }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 88px;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-char);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    /* Playfair Display defaults to old-style figures; prices read better lining. */
+    font-feature-settings: 'lnum' 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+
+  ::selection {
+    background: rgba(255, 90, 31, 0.28);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  button,
+  [role='button'],
+  summary {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+/* Page gutter and max width */
+@utility shell {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 20px;
+  @media (min-width: 640px) {
+    padding-inline: 32px;
+  }
+}
+
+/* Type scale */
+@utility type-hero {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 5.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  text-wrap: balance;
+}
+@utility type-h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  text-wrap: balance;
+}
+@utility type-h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+}
+@utility type-lead {
+  font-family: var(--font-serif);
+  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+  line-height: 1.6;
+  font-weight: 400;
+  text-wrap: pretty;
+}
+@utility micro {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Frosted glass card that floats over photography */
+@utility glass {
+  background: rgba(20, 18, 16, 0.45);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 24px 60px -24px rgba(0, 0, 0, 0.6);
+}
+
+/* The same card, mostly opaque, for where it overhangs a light background */
+@utility glass-solid {
+  background: rgba(24, 21, 18, 0.86);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 30px 60px -24px rgba(18, 16, 14, 0.55);
+}
+
+/* Brand gradients */
+@utility bg-sunset {
+  background-image: linear-gradient(140deg, #ff5a1f 0%, #ff8a3d 55%, #ffb067 100%);
+}
+@utility bg-dusk-grad {
+  background-image: linear-gradient(160deg, #8c93b8 0%, #5b5f8a 100%);
+}
+@utility bg-night {
+  background-image:
+    radial-gradient(110% 70% at 88% 108%, rgba(255, 90, 31, 0.42), transparent 60%),
+    linear-gradient(160deg, #0e1330 0%, #1b1245 100%);
+}
+
+/* One warm grade over every photograph so they read as a set */
+@utility photo-grade {
+  isolation: isolate;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255, 150, 70, 0.16), rgba(40, 18, 6, 0.22));
+    mix-blend-mode: soft-light;
+  }
+  & img {
+    filter: saturate(1.06) contrast(1.03) sepia(0.1);
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
