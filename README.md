@@ -132,6 +132,16 @@ Also worth knowing:
 - **Email confirmation is on.** New customers must click a link before they can log in. Supabase's built-in email service only sends a few emails per hour, so connect your own email provider (Authentication → Emails → SMTP) before real customers sign up.
 - **Demo accounts are off.** The "Continue as demo user" button appears on the log-in page only when **Allow anonymous sign-ins** is switched on (Authentication → Sign In / Providers).
 
+## Security
+
+Reviewed for script injection (XSS) and database injection (SQL injection) on 12 October 2026.
+
+- **Script injection.** The site never turns stored text into HTML: names, labels, key names, messages and contact form entries are always shown as plain text. On top of that, `vercel.json` sends a Content Security Policy that only allows scripts from the site itself and only lets the page talk to this Supabase project, so even an injected script could neither run nor send data elsewhere. It also stops other sites from showing Globyx inside a frame (clickjacking).
+- **Database injection.** The site never writes SQL. Every request goes through Supabase's API, which passes values separately from the query, and no database function builds SQL from text. Row-level security means a customer can only reach their own rows whatever they send.
+- **Visitor forms.** The contact form and newsletter accept only ordinary email addresses and the listed contact topics (`0004_input_hardening.sql`).
+
+**When adding a payment provider or any outside service**, add its domains to the Content Security Policy in `vercel.json` (for example `script-src`, `frame-src` and `connect-src` for a payment pop-up), or the browser will block it. If the Supabase project changes, update the address there too.
+
 ## What is simulated
 
 | Area | Now | To go live |

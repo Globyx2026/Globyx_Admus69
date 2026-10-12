@@ -7,7 +7,9 @@ export function cn(...inputs: ClassValue[]): string {
 }
 
 export function isValidEmail(value: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
+  // Ordinary addresses only. Keep in step with the database rule in
+  // supabase/migrations/0004_input_hardening.sql.
+  return /^[a-z0-9._%+-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*\.[a-z]{2,}$/i.test(value.trim());
 }
 
 /** Reads JSON from localStorage without throwing in private windows. */

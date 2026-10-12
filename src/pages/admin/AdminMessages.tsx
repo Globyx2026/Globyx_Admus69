@@ -62,7 +62,7 @@ function ContactMessages() {
                   </div>
                   <p className="mt-3 max-w-3xl text-[15px] leading-relaxed whitespace-pre-wrap text-char">{message.message}</p>
                   <a
-                    href={`mailto:${message.email}?subject=${encodeURIComponent(`Re: your message to Globyx (${message.topic})`)}`}
+                    href={`mailto:${encodeURIComponent(message.email)}?subject=${encodeURIComponent(`Re: your message to Globyx (${message.topic})`)}`}
                     className="mt-4 inline-flex items-center gap-2 text-[13px] font-medium text-char underline decoration-accent decoration-2 underline-offset-4 hover:text-accent-ink"
                   >
                     <Mail className="h-4 w-4" />
