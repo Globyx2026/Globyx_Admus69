@@ -3,9 +3,10 @@
  * to another Unsplash photo id ("photo-...") or to any full image URL, or to
  * a file you put in /public (for example "/photos/hero.jpg").
  *
- * All photos are real photographs of world landmarks and natural wonders from
- * Unsplash (free licence), one per page or section, from the Great Wall of
- * China in the hero to the moai of Easter Island on the "not found" page. The
+ * All photos are real photographs of flowers, world landmarks and natural
+ * wonders from Unsplash (free licence), one per page or section, from a poppy
+ * meadow in the morning sun in the hero to the moai of Easter Island on the
+ * "not found" page. The
  * `photo-grade` CSS utility adds a light finishing touch so they read as a set.
  */
 
@@ -31,8 +32,18 @@ function isUnsplash(image: SiteImage): boolean {
  */
 export function imageUrl(image: SiteImage, width: number, height?: number): string {
   if (!isUnsplash(image)) return image.src;
-  const crop = height ? `&h=${height}` : '';
+  const crop = height ? `&h=${height}${focalPoint(image)}` : '';
   return `${UNSPLASH}${image.src}?auto=format&fit=crop&w=${width}${crop}&q=72`;
+}
+
+/**
+ * For fixed-size crops (the tall phone hero), centre the crop on the photo's
+ * `focus` point instead of the middle, so the subject stays in frame.
+ */
+function focalPoint(image: SiteImage): string {
+  const match = image.focus?.match(/^(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%$/);
+  if (!match) return '';
+  return `&crop=focalpoint&fp-x=${Number(match[1]) / 100}&fp-y=${Number(match[2]) / 100}`;
 }
 
 /** A `srcset` of several widths. `ratio` is height / width for a fixed crop. */
@@ -51,16 +62,16 @@ export function imagePlaceholder(image: SiteImage): string | undefined {
 
 export const images = {
   hero_desktop: {
-    src: 'photo-1718027808460-7069cf0ca9ae',
-    alt: 'The Great Wall of China at Jinshanling running along a mountain ridge under a blazing red and orange sunset sky',
-    credit: 'chen zy',
-    focus: '50% 45%',
+    src: 'photo-1444930694458-01babf71870c',
+    alt: 'Bright red poppies in a green meadow, glowing against a clear blue sky with the morning sun bursting through',
+    credit: 'corina ardeleanu',
+    focus: '50% 50%',
   },
   hero_mobile: {
-    src: 'photo-1718027808460-7069cf0ca9ae',
-    alt: 'The Great Wall of China at Jinshanling running along a mountain ridge under a blazing red and orange sunset sky',
-    credit: 'chen zy',
-    focus: '60% 45%',
+    src: 'photo-1444930694458-01babf71870c',
+    alt: 'Bright red poppies in a green meadow, glowing against a clear blue sky with the morning sun bursting through',
+    credit: 'corina ardeleanu',
+    focus: '30% 50%',
   },
   numbers_showcase: {
     src: 'photo-1618811308896-d279d72fdf4d',
@@ -114,10 +125,10 @@ export const images = {
     credit: 'Sylwia Bartyzel',
   },
   cta_bg: {
-    src: 'photo-1517928260182-5688aead3066',
-    alt: 'Vivid green northern lights swirling over a dark glacial lagoon in Iceland',
-    credit: 'v2osk',
-    focus: '50% 40%',
+    src: 'photo-1718027808460-7069cf0ca9ae',
+    alt: 'The Great Wall of China at Jinshanling running along a mountain ridge under a blazing red and orange sunset sky',
+    credit: 'chen zy',
+    focus: '50% 45%',
   },
   auth_login: {
     src: 'photo-1679231926688-ef9cdab5ed2f',
