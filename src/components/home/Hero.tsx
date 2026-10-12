@@ -34,20 +34,26 @@ export function Hero() {
         </picture>
       </div>
 
-      {/* Dark wash from the bottom-left keeps the headline readable. */}
+      {/* A soft shade from the bottom-left keeps the headline readable while
+          leaving the sunlit sky and flowers bright. */}
       <div
         className="absolute inset-0 -z-10"
         style={{
           background:
-            'linear-gradient(to top right, rgba(18,16,14,0.94) 0%, rgba(18,16,14,0.68) 34%, rgba(18,16,14,0.18) 66%, rgba(18,16,14,0) 100%), linear-gradient(to bottom, rgba(18,16,14,0.6) 0%, rgba(18,16,14,0) 24%)',
+            'linear-gradient(to top right, rgba(18,16,14,0.78) 0%, rgba(18,16,14,0.42) 34%, rgba(18,16,14,0.06) 64%, rgba(18,16,14,0) 100%), linear-gradient(to bottom, rgba(18,16,14,0.38) 0%, rgba(18,16,14,0) 20%)',
         }}
       />
 
-      {/* Extra wash while the layout is stacked and the text sits over the sun. */}
-      <div className="absolute inset-0 -z-10 bg-ink/40 lg:hidden" />
+      {/* A light extra shade while the layout is stacked and the text sits over the sun. */}
+      <div className="absolute inset-0 -z-10 bg-ink/20 lg:hidden" />
 
       <div className="shell grid gap-12 pt-32 pb-10 md:pb-14 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-end lg:gap-16">
-        <motion.div initial="hidden" animate="show" transition={{ staggerChildren: 0.12, delayChildren: 0.1 }}>
+        <motion.div
+          initial="hidden"
+          animate="show"
+          transition={{ staggerChildren: 0.12, delayChildren: 0.1 }}
+          className="[text-shadow:0_2px_18px_rgba(18,16,14,0.55)]"
+        >
           <motion.h1 variants={rise} className="type-hero max-w-[15ch]">
             Phone numbers and proxies for a borderless business.
           </motion.h1>
