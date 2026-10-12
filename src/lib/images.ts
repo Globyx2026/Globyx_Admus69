@@ -3,9 +3,10 @@
  * to another Unsplash photo id ("photo-...") or to any full image URL, or to
  * a file you put in /public (for example "/photos/hero.jpg").
  *
- * All photos are real nature photography from Unsplash (free licence), chosen
- * for a shared golden-hour palette. The `photo-grade` CSS utility adds one
- * warm overlay on top so they read as a set.
+ * All photos are real photographs of world landmarks and natural wonders from
+ * Unsplash (free licence), one per page or section, from the Great Wall of
+ * China in the hero to the moai of Easter Island on the "not found" page. The
+ * `photo-grade` CSS utility adds a light finishing touch so they read as a set.
  */
 
 export interface SiteImage {
@@ -50,116 +51,118 @@ export function imagePlaceholder(image: SiteImage): string | undefined {
 
 export const images = {
   hero_desktop: {
-    src: 'photo-1781825151998-9c4acca59a4c',
-    alt: 'Aerial view of a long sandy coastline at golden hour, with the sun low over the horizon and waves rolling in',
-    credit: 'Junel Mujar',
-    focus: '50% 40%',
-  },
-  hero_mobile: {
-    src: 'photo-1781825151998-9c4acca59a4c',
-    alt: 'Aerial view of a long sandy coastline at golden hour, with the sun low over the horizon and waves rolling in',
-    credit: 'Junel Mujar',
-    focus: '58% 40%',
-  },
-  numbers_showcase: {
-    src: 'photo-1559740451-b895701fa4b5',
-    alt: 'Tall grass glowing in the last light of the day, with the sun setting behind a line of trees',
-    credit: 'Samuel Myles',
-  },
-  proxies_showcase: {
-    src: 'photo-1605810257524-b66f77c5066d',
-    alt: 'Beams of warm sunlight streaming between tall forest trees',
-    credit: 'Maxim Hopman',
-  },
-  usecase_ecommerce: {
-    src: 'photo-1603657523988-76184975d205',
-    alt: 'Mountain ridges lit orange under a glowing evening sky',
-    credit: 'Jake Weirick',
-  },
-  usecase_support: {
-    src: 'photo-1669820509976-e1b0d9216c25',
-    alt: 'A still lake at sunrise with mist rising in front of an autumn treeline',
-    credit: 'Samuel Girven',
-  },
-  usecase_ads: {
-    src: 'photo-1604358700679-618e30e1d3b8',
-    alt: 'Close-up of dry grass seed heads backlit by warm evening light',
-    credit: 'Janan',
-  },
-  usecase_seo: {
-    src: 'photo-1557995744-18c7f67f4307',
-    alt: 'Rippled sand dunes stretching to the horizon in warm light',
-    credit: 'Christian Weiss',
-  },
-  usecase_research: {
-    src: 'photo-1611273651216-29b4f282d36b',
-    alt: 'Sunbeams breaking through fog over a forest canopy, seen from above',
-    credit: 'Brendan Beale',
-  },
-  usecase_freelancer: {
-    src: 'photo-1516026672322-bc52d61a55d5',
-    alt: 'A lone acacia tree on the savanna at sunset, with hills in the distance',
-    credit: 'Hu Chen',
-  },
-  about_story: {
-    src: 'photo-1547471080-7cc2caa01a7e',
-    alt: 'A single tree on an open plain under a dramatic orange sunset sky',
-    credit: 'Damian Patkowski',
-    focus: '50% 60%',
-  },
-  about_team: {
-    src: 'photo-1603346996604-cd77fc859e1d',
-    alt: 'Morning light falling in beams across a green forest clearing',
-    credit: 'Erik van Dijk',
-  },
-  cta_bg: {
-    src: 'photo-1503803548695-c2a7b4a5b875',
-    alt: 'The sun breaking through clouds over a calm sea at golden hour',
-    credit: 'Sebastien Gabriel',
+    src: 'photo-1718027808460-7069cf0ca9ae',
+    alt: 'The Great Wall of China at Jinshanling running along a mountain ridge under a blazing red and orange sunset sky',
+    credit: 'chen zy',
     focus: '50% 45%',
   },
+  hero_mobile: {
+    src: 'photo-1718027808460-7069cf0ca9ae',
+    alt: 'The Great Wall of China at Jinshanling running along a mountain ridge under a blazing red and orange sunset sky',
+    credit: 'chen zy',
+    focus: '60% 45%',
+  },
+  numbers_showcase: {
+    src: 'photo-1618811308896-d279d72fdf4d',
+    alt: 'Victoria Falls pouring into the gorge as the sun sets behind a veil of rising spray',
+    credit: 'Sammy Wong',
+  },
+  proxies_showcase: {
+    src: 'photo-1678995760721-03f9ed8bdfd2',
+    alt: 'Salar de Uyuni in Bolivia turned into a mirror at sunset, a lone car reflected in the flooded salt flat under a pink and violet sky',
+    credit: 'Christian Ruehmer',
+  },
+  usecase_ecommerce: {
+    src: 'photo-1512453979798-5ea266f8880c',
+    alt: 'Downtown Dubai at sunrise, with the Burj Khalifa rising above skyscrapers and a sweeping highway interchange',
+    credit: 'David Rodrigo',
+  },
+  usecase_support: {
+    src: 'photo-1624138784614-87fd1b6528f8',
+    alt: 'Sydney Opera House and the Harbour Bridge on a bright harbour, seen from above',
+    credit: 'Caleb',
+  },
+  usecase_ads: {
+    src: 'photo-1577871598838-a543ee47cd79',
+    alt: 'A red-sailed junk boat crossing Victoria Harbour in front of the lit Hong Kong skyline at night',
+    credit: 'Andres Garcia',
+  },
+  usecase_seo: {
+    src: 'photo-1600520611035-84157ad4084d',
+    alt: 'The Pyramids of Giza standing in the desert under a blue sky with white clouds',
+    credit: 'Osama Elsayed',
+  },
+  usecase_research: {
+    src: 'photo-1723134084358-20a2dc177ff1',
+    alt: 'Machu Picchu catching the first morning sun, with Huayna Picchu and the Andes behind',
+    credit: 'Ed Wingate',
+  },
+  usecase_freelancer: {
+    src: 'photo-1580502304784-8985b7eb7260',
+    alt: 'The white houses of Oia on Santorini glowing on the cliffside above the Aegean at dusk',
+    credit: 'James Ting',
+  },
+  about_story: {
+    src: 'photo-1740928507728-841d214e1b3c',
+    alt: 'A herd of elephants crossing the dusty Amboseli plains in Kenya with Mount Kilimanjaro behind',
+    credit: 'Simone Dinoia',
+    focus: '50% 55%',
+  },
+  about_team: {
+    src: 'photo-1548013146-72479768bada',
+    alt: 'The Taj Mahal in Agra framed by a carved red sandstone archway',
+    credit: 'Sylwia Bartyzel',
+  },
+  cta_bg: {
+    src: 'photo-1517928260182-5688aead3066',
+    alt: 'Vivid green northern lights swirling over a dark glacial lagoon in Iceland',
+    credit: 'v2osk',
+    focus: '50% 40%',
+  },
   auth_login: {
-    src: 'photo-1504386106331-3e4e71712b38',
-    alt: 'The sun above layered mountain silhouettes under a deep orange sky',
-    credit: 'Andrey Grinkevich',
+    src: 'photo-1679231926688-ef9cdab5ed2f',
+    alt: 'The Eiffel Tower and the Champ de Mars seen from the air as the sun sets over Paris',
+    credit: 'Timelab',
   },
   auth_signup: {
-    src: 'photo-1500964757637-c85e8a162699',
-    alt: 'Layers of mountains fading into a pink and gold sunset',
-    credit: 'simon',
+    src: 'photo-1578637387939-43c525550085',
+    alt: 'The snow-capped peak of Mount Fuji lit warm by the evening sun under a clear sky',
+    credit: 'Aditya Anjagi',
   },
   header_numbers: {
-    src: 'photo-1708748513828-2227f6d39c04',
-    alt: 'The sharp crest of a sand dune, half in sunlight and half in shadow',
-    credit: 'Tim Arterbury',
+    src: 'photo-1580834341580-8c17a3a630ca',
+    alt: 'The Treasury of Petra in Jordan, carved into rose-coloured sandstone, seen from the cliffs above the Siq',
+    credit: 'Alex Vasey',
+    focus: '50% 45%',
   },
   header_proxies: {
-    src: 'photo-1558709995-98a2f442ecca',
-    alt: 'Soft, wind-shaped sand dunes in low evening light',
-    credit: 'Christian Weiss',
+    src: 'photo-1641128324972-af3212f0f6bd',
+    alt: 'Hot air balloons drifting over the sunlit rock formations of Cappadocia in Turkey',
+    credit: 'Ramzi Belaidi',
+    focus: '50% 40%',
   },
   header_pricing: {
-    src: 'photo-1618768638775-4e4b35be986e',
-    alt: 'A dark dune ridge against a pale, glowing sky',
-    credit: 'Brandon Smith',
-    focus: '50% 70%',
+    src: 'photo-1531694402898-042bd3957f41',
+    alt: 'Horseshoe Bend in Arizona, where the Colorado River loops around a red rock outcrop as the sun rises over the canyon',
+    credit: 'Tom Gainor',
+    focus: '50% 50%',
   },
   header_contact: {
-    src: 'photo-1784350724014-b65f93d2457b',
-    alt: 'A small boat on a calm, misty lake with mountains behind at sunset',
-    credit: 'Nguyễn Đức',
-    focus: '50% 70%',
+    src: 'photo-1580644906000-6e953181e153',
+    alt: 'Table Mountain in Cape Town under drifting cloud, with yellow wildflowers in the foreground',
+    credit: 'Tobias Reich',
+    focus: '50% 45%',
   },
   header_developers: {
-    src: 'photo-1575571991314-295b0809f460',
-    alt: 'A river winding through marshland, seen from the air in evening light',
-    credit: 'Andrew Banner',
-    focus: '50% 70%',
+    src: 'photo-1450149632596-3ef25a62011a',
+    alt: 'The Golden Gate Bridge in San Francisco under a purple and pink sky at golden hour',
+    credit: 'Umer Sayyam',
+    focus: '50% 55%',
   },
   not_found: {
-    src: 'photo-1554213808-9c5bab0f624e',
-    alt: 'An empty sea under a red sunset sky',
-    credit: 'Hannah Reding',
+    src: 'photo-1617925173097-f7084b2534cc',
+    alt: 'A row of moai statues on Rapa Nui (Easter Island) in silhouette against the setting sun',
+    credit: 'Thomas Griggs',
   },
 } satisfies Record<string, SiteImage>;
 

@@ -182,7 +182,7 @@ These were written as sensible placeholders and need a decision from the busines
 
 ## Photography
 
-All photographs are real nature photography from [Unsplash](https://unsplash.com), used under the Unsplash licence. Thank you to the photographers: Junel Mujar, Samuel Myles, Maxim Hopman, Jake Weirick, Samuel Girven, Janan, Christian Weiss, Brendan Beale, Hu Chen, Damian Patkowski, Erik van Dijk, Sebastien Gabriel, Andrey Grinkevich, simon, Tim Arterbury, Brandon Smith, Nguyễn Đức, Andrew Banner and Hannah Reding.
+All photographs are real photographs of world landmarks and natural wonders from [Unsplash](https://unsplash.com), used under the Unsplash licence: the Great Wall of China (home page), Victoria Falls, Salar de Uyuni, Dubai, Sydney, Hong Kong, the Pyramids of Giza, Machu Picchu, Santorini, Amboseli and Kilimanjaro, the Taj Mahal, the northern lights over Iceland, Paris, Mount Fuji, Petra, Cappadocia, Horseshoe Bend, Cape Town, the Golden Gate Bridge and Easter Island. Every photo and its alt text is listed in `src/lib/images.ts`. Thank you to the photographers: chen zy, Sammy Wong, Christian Ruehmer, David Rodrigo, Caleb, Andres Garcia, Osama Elsayed, Ed Wingate, James Ting, Simone Dinoia, Sylwia Bartyzel, v2osk, Timelab, Aditya Anjagi, Alex Vasey, Ramzi Belaidi, Tom Gainor, Tobias Reich, Umer Sayyam and Thomas Griggs.
 
 ## Accessibility and motion
 

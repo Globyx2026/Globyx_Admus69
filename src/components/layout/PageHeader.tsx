@@ -15,13 +15,13 @@ export function PageHeader({ label, title, intro, image, children }: PageHeaderP
   return (
     <section className="relative isolate overflow-hidden bg-ink text-cream">
       {image && (
-        <Photo image={image} priority sizes="100vw" className="absolute inset-0 -z-20" imgClassName="opacity-80" />
+        <Photo image={image} priority sizes="100vw" className="absolute inset-0 -z-20" imgClassName="opacity-90" />
       )}
       <div
         className="absolute inset-0 -z-10"
         style={{
           background: image
-            ? 'linear-gradient(180deg, rgba(18,16,14,0.72) 0%, rgba(18,16,14,0.5) 40%, rgba(18,16,14,0.92) 100%)'
+            ? 'linear-gradient(180deg, rgba(18,16,14,0.66) 0%, rgba(18,16,14,0.4) 40%, rgba(18,16,14,0.9) 100%)'
             : 'radial-gradient(90% 120% at 85% -10%, rgba(255,90,31,0.22), transparent 55%)',
         }}
       />
