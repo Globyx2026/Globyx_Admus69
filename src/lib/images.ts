@@ -67,11 +67,13 @@ export const images = {
     credit: 'corina ardeleanu',
     focus: '50% 50%',
   },
+  // A separate, naturally tall photo for phones: open blue sky at the top for
+  // the headline, and the flowers below.
   hero_mobile: {
-    src: 'photo-1444930694458-01babf71870c',
-    alt: 'Bright red poppies in a green meadow, glowing against a clear blue sky with the morning sun bursting through',
-    credit: 'corina ardeleanu',
-    focus: '30% 50%',
+    src: 'photo-1523437237164-d442d57cc3c9',
+    alt: 'A summer meadow of red poppies and blue cornflowers under a bright blue sky with white clouds',
+    credit: 'Zbynek Burival',
+    focus: '50% 50%',
   },
   numbers_showcase: {
     src: 'photo-1618811308896-d279d72fdf4d',
